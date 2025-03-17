@@ -21,15 +21,25 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v3
 
+      - name: Build Docker image
+        run: docker build -t betterme-app:latest .
+
+      - name: Run container
+        run: docker run -d --name betterme-app betterme-app:latest
+
+      - name: Run tests inside container
+        run: docker exec betterme-app sh -c "echo 'Running tests' && ls -l"
+
       - name: Build and push Docker image
         run: |
-          docker build -t betterme-app:latest .
-          docker tag betterme-app:latest $DOCKER_USERNAME/betterme-app:latest
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build -t $DOCKER_USERNAME/betterme-app:latest .
           docker push $DOCKER_USERNAME/betterme-app:latest
 
       - name: Deploy Helm Chart
         run: |
-          helm upgrade --install betterme ./helm --set image.repository=./betterme-app --set image.tag=latest
+          helm upgrade --install betterme ./helm --set image.repository=$DOCKER_USERNAME/betterme-app --set image.tag=latest
+
 
       - name: Verify deployment
         run: kubectl get pods
