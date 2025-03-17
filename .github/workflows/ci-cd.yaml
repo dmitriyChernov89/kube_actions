@@ -37,7 +37,7 @@ jobs:
           docker push dmitriy89/betterme-app:latest
 
       - name: Check if Helm chart exists
-        run: ls -l ./helm
+        run: ls -l
 
       - name: Deploy Helm Chart
         run: |
