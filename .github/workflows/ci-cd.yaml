@@ -36,12 +36,9 @@ jobs:
           docker build -t dmitriy89/betterme-app:latest .
           docker push dmitriy89/betterme-app:latest
 
-      - name: Check if Helm chart exists
-        run: ls -l
-
       - name: Deploy Helm Chart
         run: |
-          helm upgrade --install betterme ./helm --set image.repository=dmitriy89/betterme-app --set image.tag=latest
+          helm upgrade --install betterme ../betterme --set image.repository=dmitriy89/betterme-app --set image.tag=latest
 
       - name: Verify deployment
         run: kubectl get pods
