@@ -32,12 +32,12 @@ jobs:
 
       - name: Build and push Docker image to local registry
         run: |
-          docker build -t localhost:5001/betterme-app:latest .
-          docker push localhost:5001/betterme-app:latest
+          docker build -t localhost:5000/betterme-app:latest .
+          docker push localhost:5000/betterme-app:latest
 
       - name: Deploy Helm Chart
         run: |
-          helm upgrade --install betterme ./helm --set image.repository=localhost:5001/betterme-app --set image.tag=latest
+          helm upgrade --install betterme ./helm --set image.repository=localhost:5000/betterme-app --set image.tag=latest
 
 
       - name: Verify deployment
