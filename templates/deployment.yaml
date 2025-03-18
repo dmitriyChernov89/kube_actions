@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}
   labels:
-    app: {{ .Release.Name }}
+    app.kubernetes.io/name: betterme
+    app.kubernetes.io/instance: betterme
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
