@@ -36,8 +36,11 @@ jobs:
           docker build -t dmitriy89/betterme-app:latest .
           docker push dmitriy89/betterme-app:latest
 
-      - name: Run container
+      - name: Show path
         run: pwd
+
+      - name: Chech contexts
+        run: kubectl config get-contexts
 
       - name: Deploy Helm Chart
         run: |
